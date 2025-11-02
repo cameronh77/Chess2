@@ -1,3 +1,5 @@
+import layout.Board;
+
 import javax.swing.*;
 import java.awt.*;
 

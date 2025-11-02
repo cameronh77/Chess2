@@ -1,14 +1,19 @@
 package pieces;
 
+import layout.Board;
+import moves.Move;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class Piece {
     protected BufferedImage image;
     protected String name;
+    protected Boolean isFirstMove = true;
 
     public int getXord() {
         return xord;
@@ -40,8 +45,8 @@ public abstract class Piece {
     protected int size;
 
     Piece(int x, int y, boolean isWhite, String name, int size){
-        this.xord = x;
-        this.yord = y;
+        this.xord = x*size;
+        this.yord = y*size;
         this.isWhite = isWhite;
         this.name = name;
         this.size = size;
@@ -58,7 +63,22 @@ public abstract class Piece {
     }
 
     public void draw(Graphics2D g){
-        g.drawImage(image, xord*size, yord*size, size, size,  null);
-        System.out.println("Drawing image"+ image);
+        g.drawImage(image, xord, yord, size, size,  null);
+    }
+
+    public ArrayList<Move> generateMoves(Board board){
+        return null;
+    }
+
+    public void setIsFirstMove(Boolean state){
+        isFirstMove = state;
+    }
+
+    public Boolean getIsFirstMove(){
+        return isFirstMove;
+    }
+
+    public Boolean getIsWhite(){
+        return isWhite;
     }
 }
