@@ -11,7 +11,7 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setSize(new Dimension((int) Math.floor(0.9*screenHeight), (int) Math.floor(0.9*screenHeight)));
+        frame.setSize(new Dimension((int) Math.floor(0.7*screenHeight), (int) Math.floor(0.7*screenHeight)));
 
         Board board = new Board();
         frame.add(board);
