@@ -15,60 +15,50 @@ public class Bishop extends Piece{
     @Override
     public ArrayList<Move> generateMoves(Board board){
         ArrayList<Move> moves = new ArrayList<>();
-        //This is incredibly incorrect, its doing more than just diagonals
-        for(int r = yord/size+1; r< board.boardY; r+=1){
-            for(int c = xord/size+1; c< board.boardX; c+=1){
-                //If no piece generate as normal else evaluate take
-                if(board.getTiles().get(c).get(r).getPiece() != null){
-                    if(board.getTiles().get(c).get(r).getPiece().getIsWhite() != isWhite){
-                        moves.add(new Move(this, c, r, board));
-                    }
-                    break;
-                }else{
-                    moves.add(new Move(this, c, r, board));
+
+        //pos pos
+        for(int offset = 1; offset + xord/size< board.boardX && offset + yord/size< board.boardY; offset+=1){
+            if(board.getTiles().get(xord/size+offset).get(yord/size+offset).getPiece() != null){
+                if(board.getTiles().get(xord/size+offset).get(yord/size+offset).getPiece().getIsWhite() != isWhite){
+                    moves.add(new Move(this, xord/size+offset, yord/size+offset, board));
                 }
+                break;
+            }else{
+                moves.add(new Move(this, xord/size+offset, yord/size+offset, board));
             }
         }
 
-        for(int r = yord/size+1; r< board.boardY; r+=1){
-            for(int c = xord/size-1; c>=0 ; c-=1){
-                //If no piece generate as normal else evaluate take
-                if(board.getTiles().get(c).get(r).getPiece() != null){
-                    if(board.getTiles().get(c).get(r).getPiece().getIsWhite() != isWhite){
-                        moves.add(new Move(this, c, r, board));
-                    }
-                    break;
-                }else{
-                    moves.add(new Move(this, c, r, board));
+        //pos neg
+        for(int offset = 1; offset + xord/size< board.boardX && -offset + yord/size >=  0; offset+=1){
+            if(board.getTiles().get(xord/size+offset).get(yord/size-offset).getPiece() != null){
+                if(board.getTiles().get(xord/size+offset).get(yord/size-offset).getPiece().getIsWhite() != isWhite){
+                    moves.add(new Move(this, xord/size+offset, yord/size-offset, board));
                 }
+                break;
+            }else{
+                moves.add(new Move(this, xord/size+offset, yord/size-offset, board));
             }
         }
 
-        for(int r = yord/size-1; r>=0; r-=1){
-            for(int c = xord/size+1; c< board.boardX; c+=1){
-                //If no piece generate as normal else evaluate take
-                if(board.getTiles().get(c).get(r).getPiece() != null){
-                    if(board.getTiles().get(c).get(r).getPiece().getIsWhite() != isWhite){
-                        moves.add(new Move(this, c, r, board));
-                    }
-                    break;
-                }else{
-                    moves.add(new Move(this, c, r, board));
+        for(int offset = 1; -offset + xord/size >= 0 && offset < yord/size+ board.boardY; offset+=1){
+            if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece() != null){
+                if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece().getIsWhite() != isWhite){
+                    moves.add(new Move(this, xord/size-offset, yord/size+offset, board));
                 }
+                break;
+            }else{
+                moves.add(new Move(this, xord/size-offset, yord/size+offset, board));
             }
         }
 
-        for(int r = yord/size-1; r>=0; r-=1){
-            for(int c = xord/size-1; c>=0 ; c-=1){
-                //If no piece generate as normal else evaluate take
-                if(board.getTiles().get(c).get(r).getPiece() != null){
-                    if(board.getTiles().get(c).get(r).getPiece().getIsWhite() != isWhite){
-                        moves.add(new Move(this, c, r, board));
-                    }
-                    break;
-                }else{
-                    moves.add(new Move(this, c, r, board));
+        for(int offset = 1; -offset + xord/size >= 0 && -offset + yord/size >=  0; offset+=1){
+            if(board.getTiles().get(xord/size-offset).get(yord/size-offset).getPiece() != null){
+                if(board.getTiles().get(xord/size-offset).get(yord/size-offset).getPiece().getIsWhite() != isWhite){
+                    moves.add(new Move(this, xord/size-offset, yord/size-offset, board));
                 }
+                break;
+            }else{
+                moves.add(new Move(this, xord/size-offset, yord/size-offset, board));
             }
         }
 
