@@ -16,30 +16,38 @@ public class King extends Piece{
     public ArrayList<Move> generateMoves(Board board){
         ArrayList<Move> moves = new ArrayList<>();
         //Currently no moves are showing and this setup also means king can take pieces of its own colour
-        if(xord-1 >= 0){
-            moves.add(new Move(this, xord-1, yord, board));
-            if(yord-1 >= 0){
-                moves.add(new Move(this, xord, yord-1, board));
-                moves.add(new Move(this, xord-1, yord-1, board));
+        if(xord/size-1 >= 0){
+            moves.add(new Move(this, xord/size-1, yord/size, board));
+            if(yord/size-1 >= 0){
+                moves.add(new Move(this, xord/size, yord/size-1, board));
+                moves.add(new Move(this, xord/size-1, yord/size-1, board));
             }
-            if(yord + 1 < board.boardY){
-                moves.add(new Move(this, xord-1, yord+1, board));
+            if(yord/size + 1 < board.boardY){
+                moves.add(new Move(this, xord/size-1, yord/size+1, board));
             }
         }
 
-        if(xord+1 < board.boardX){
-            moves.add(new Move(this, xord+1, yord, board));
-            if(yord+1 < board.boardX){
-                moves.add(new Move(this, xord, yord+1, board));
-                moves.add(new Move(this, xord+1, yord+1, board));
+        if(xord/size+1 < board.boardX){
+            moves.add(new Move(this, xord/size+1, yord/size, board));
+            if(yord/size+1 < board.boardX){
+                moves.add(new Move(this, xord/size, yord/size+1, board));
+                moves.add(new Move(this, xord/size+1, yord/size+1, board));
             }
             if(yord - 1 >= 0){
-                moves.add(new Move(this, xord-1, yord-1, board));
+                moves.add(new Move(this, xord/size+1, yord/size-1, board));
             }
         }
 
+        ArrayList<Move> trueMoves = new ArrayList<>();
+        for(Move move: moves){
+            if(!(board.getTiles().get(move.getNewX()).get(move.getNewY()).getPiece() != null && board.getTiles().get(move.getNewX()).get(move.getNewY()).getPiece().getIsWhite() == isWhite)){
+                trueMoves.add(move);
+            }
+        }
+
+
         //still needs castling
-        return moves;
+        return trueMoves;
     }
 
 }

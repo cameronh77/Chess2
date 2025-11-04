@@ -49,7 +49,7 @@ public class Board extends JPanel {
         addToBoard(new Horse(1, 0, false, tileSize));
         addToBoard(new Bishop(2, 0, false, tileSize));
         addToBoard(new Queen(3, 0, false, tileSize));
-        addToBoard(new King(4, 4, false, tileSize));
+        addToBoard(new King(4, 5, false, tileSize));
         addToBoard(new Bishop(5, 0, false, tileSize));
         addToBoard(new Horse(6, 0, false, tileSize));
         addToBoard(new Castle(7, 0, false, tileSize));
