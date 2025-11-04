@@ -24,6 +24,7 @@ public class BoardInput extends MouseAdapter {
 
             board.setSelectedPiece(tile.getPiece());
             board.generatePieceMoves();
+
         }
     }
 
