@@ -6,12 +6,12 @@ import pieces.Piece;
 import java.awt.datatransfer.Clipboard;
 
 public class Move {
-    private int oldX, oldY;
-    private int newX, newY;
-    private Board board;
-    private Piece movingPiece;
-    private Piece capturedPiece;
-    private Boolean isFirstMove;
+    protected int oldX, oldY;
+    protected int newX, newY;
+    protected Board board;
+    protected Piece movingPiece;
+    protected Piece capturedPiece;
+    protected Boolean isFirstMove;
 
 
     public Move(Piece piece, int newX, int newY, Board board){

@@ -44,8 +44,7 @@ public class BoardInput extends MouseAdapter {
             Boolean executed = false;
             for(Move move: board.getValidMoves()){
                 if(move.getNewX() == attemptedMove.getNewX() && move.getNewY() == attemptedMove.getNewY() && move.getMovingPiece() == attemptedMove.getMovingPiece()){
-                    attemptedMove.execute();
-                    System.out.println(attemptedMove.getNewX()+"<- x y-> "+ attemptedMove.getNewY());
+                    move.execute();
                     executed = true;
                     break;
                 }

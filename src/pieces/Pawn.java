@@ -37,7 +37,7 @@ public class Pawn extends Piece{
             moves.add(new Move(this, xord/size, yord/size+(offset), board));
         }
 
-        //Still needs en passant and promotions, I don't think anything else is messing
+        //Still needs en passant I don't think anything else is messing
 
         return moves;
     }

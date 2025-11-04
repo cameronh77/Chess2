@@ -103,5 +103,9 @@ public abstract class Piece {
         return row;
     }
 
+    public String getName(){
+        return name;
+    }
+
 
 }
