@@ -13,56 +13,70 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public ArrayList<Move> generateMoves(Board board){
+    public ArrayList<Move> generateMoves(Board board, Boolean ignoreCheck){
         ArrayList<Move> moves = new ArrayList<>();
-
-        //pos pos
-        for(int offset = 1; offset + xord/size< board.boardX && offset + yord/size< board.boardY; offset+=1){
-            if(board.getTiles().get(xord/size+offset).get(yord/size+offset).getPiece() != null){
-                if(board.getTiles().get(xord/size+offset).get(yord/size+offset).getPiece().getIsWhite() != isWhite){
-                    moves.add(new Move(this, xord/size+offset, yord/size+offset, board));
+        if(isWhite == board.getWhiteToMove()) {
+            //pos pos
+            for (int offset = 1; offset + xord / size < board.boardX && offset + yord / size < board.boardY; offset += 1) {
+                if (board.getTiles().get(xord / size + offset).get(yord / size + offset).getPiece() != null) {
+                    if (board.getTiles().get(xord / size + offset).get(yord / size + offset).getPiece().getIsWhite() != isWhite) {
+                        moves.add(new Move(this, xord / size + offset, yord / size + offset, board));
+                    }
+                    break;
+                } else {
+                    moves.add(new Move(this, xord / size + offset, yord / size + offset, board));
                 }
-                break;
-            }else{
-                moves.add(new Move(this, xord/size+offset, yord/size+offset, board));
             }
+
+            //pos neg
+            for (int offset = 1; offset + xord / size < board.boardX && -offset + yord / size >= 0; offset += 1) {
+                if (board.getTiles().get(xord / size + offset).get(yord / size - offset).getPiece() != null) {
+                    if (board.getTiles().get(xord / size + offset).get(yord / size - offset).getPiece().getIsWhite() != isWhite) {
+                        moves.add(new Move(this, xord / size + offset, yord / size - offset, board));
+                    }
+                    break;
+                } else {
+                    moves.add(new Move(this, xord / size + offset, yord / size - offset, board));
+                }
+            }
+
+            for (int offset = 1; -offset + xord / size >= 0 && offset + yord / size < board.boardY; offset += 1) {
+                if (board.getTiles().get(xord / size - offset).get(yord / size + offset).getPiece() != null) {
+                    if (board.getTiles().get(xord / size - offset).get(yord / size + offset).getPiece().getIsWhite() != isWhite) {
+                        moves.add(new Move(this, xord / size - offset, yord / size + offset, board));
+                    }
+                    break;
+                } else {
+                    moves.add(new Move(this, xord / size - offset, yord / size + offset, board));
+                }
+            }
+
+            for (int offset = 1; -offset + xord / size >= 0 && -offset + yord / size >= 0; offset += 1) {
+                if (board.getTiles().get(xord / size - offset).get(yord / size - offset).getPiece() != null) {
+                    if (board.getTiles().get(xord / size - offset).get(yord / size - offset).getPiece().getIsWhite() != isWhite) {
+                        moves.add(new Move(this, xord / size - offset, yord / size - offset, board));
+                    }
+                    break;
+                } else {
+                    moves.add(new Move(this, xord / size - offset, yord / size - offset, board));
+                }
+            }
+
+            if(!ignoreCheck){
+                ArrayList<Move> trueMoves = new ArrayList<>();
+                for (Move move : moves) {
+                    if (!board.checkEvaluator(move)) {
+                        trueMoves.add(move);
+                    }
+                }
+                return trueMoves;
+            }
+
+            return moves;
+        } else{
+            return moves;
         }
 
-        //pos neg
-        for(int offset = 1; offset + xord/size< board.boardX && -offset + yord/size >=  0; offset+=1){
-            if(board.getTiles().get(xord/size+offset).get(yord/size-offset).getPiece() != null){
-                if(board.getTiles().get(xord/size+offset).get(yord/size-offset).getPiece().getIsWhite() != isWhite){
-                    moves.add(new Move(this, xord/size+offset, yord/size-offset, board));
-                }
-                break;
-            }else{
-                moves.add(new Move(this, xord/size+offset, yord/size-offset, board));
-            }
-        }
-
-        for(int offset = 1; -offset + xord/size >= 0 && offset + yord/size <  board.boardY; offset+=1){
-            if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece() != null){
-                if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece().getIsWhite() != isWhite){
-                    moves.add(new Move(this, xord/size-offset, yord/size+offset, board));
-                }
-                break;
-            }else{
-                moves.add(new Move(this, xord/size-offset, yord/size+offset, board));
-            }
-        }
-
-        for(int offset = 1; -offset + xord/size >= 0 && -offset + yord/size >=  0; offset+=1){
-            if(board.getTiles().get(xord/size-offset).get(yord/size-offset).getPiece() != null){
-                if(board.getTiles().get(xord/size-offset).get(yord/size-offset).getPiece().getIsWhite() != isWhite){
-                    moves.add(new Move(this, xord/size-offset, yord/size-offset, board));
-                }
-                break;
-            }else{
-                moves.add(new Move(this, xord/size-offset, yord/size-offset, board));
-            }
-        }
-
-        return moves;
     }
 
 }

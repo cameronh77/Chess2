@@ -21,6 +21,8 @@ public class Board extends JPanel {
     private ArrayList<Move> validMoves;
     private int[] enPassantTile = new int[2];
 
+    private Boolean whiteToMove = true;
+
 
     public Board (){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -44,6 +46,22 @@ public class Board extends JPanel {
         pieces.add(piece);
         tiles.get(piece.getXord()/tileSize).get(piece.getYord()/tileSize).setPiece(piece);
     }
+
+    public Boolean checkEvaluator(Move move){
+        move.execute();
+        Boolean isKingChecked = false;
+        for(Piece piece: pieces){
+            ArrayList<Move> moves = piece.generateMoves(this, true);
+            for(Move subMove: moves){
+                if(subMove.getCapturedPiece() != null && subMove.getCapturedPiece().getName() == "king"){
+                    isKingChecked = true;
+                }
+            }
+        }
+        move.undo();
+        return isKingChecked;
+    }
+
 
     public void addTestPieces(){
         addToBoard(new Castle(0, 0, false, tileSize));
@@ -88,7 +106,7 @@ public class Board extends JPanel {
     }
 
     public void generatePieceMoves(){
-        validMoves = selectedPiece.generateMoves(this);
+        validMoves = selectedPiece.generateMoves(this, false);
 
     }
     public ArrayList<ArrayList<Tile>> getTiles(){
@@ -141,5 +159,13 @@ public class Board extends JPanel {
 
     public void setEnPassantTile(int[] enPassantTile){
         this.enPassantTile = enPassantTile;
+    }
+
+    public Boolean getWhiteToMove(){
+        return whiteToMove;
+    }
+
+    public void setWhiteToMove(Boolean whiteToMove){
+        this.whiteToMove = whiteToMove;
     }
 }

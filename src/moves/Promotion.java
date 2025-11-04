@@ -18,10 +18,7 @@ public class Promotion extends Move{
     public void execute(){
         board.getTiles().get(oldX).get(oldY).setPiece(null);
 
-        if(board.getTiles().get(newX).get(newY).getPiece() != null){
-            capturedPiece = board.getTiles().get(newX).get(newY).getPiece();
-            board.getPieces().remove(capturedPiece);
-        }
+        board.getPieces().remove(capturedPiece);
         newQueen = new Queen(newX, newY, movingPiece.isWhite(), board.getTileSize());
         board.getPieces().remove(movingPiece);
         board.getPieces().add(newQueen);
@@ -29,5 +26,23 @@ public class Promotion extends Move{
         board.getTiles().get(newX).get(newY).setPiece(newQueen);
 
         newQueen.setIsFirstMove(false);
+
+        board.setWhiteToMove(!board.getWhiteToMove());
+    }
+
+    @Override
+    public void undo(){
+        //Re add initial pawn to tile
+        board.getTiles().get(oldX).get(oldY).setPiece(movingPiece);
+
+        //Re add the captured piece
+        board.getPieces().add(capturedPiece);
+
+        board.getPieces().add(movingPiece);
+        board.getPieces().remove(newQueen);
+
+        board.getTiles().get(newX).get(newY).setPiece(capturedPiece);
+
+        board.setWhiteToMove(!board.getWhiteToMove());
     }
 }

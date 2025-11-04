@@ -70,7 +70,7 @@ public abstract class Piece {
         g.drawImage(image, xord, yord, size, size,  null);
     }
 
-    public ArrayList<Move> generateMoves(Board board){
+    public ArrayList<Move> generateMoves(Board board, Boolean ignoreCheck){
         return null;
     }
 
