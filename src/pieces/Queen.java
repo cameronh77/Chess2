@@ -40,7 +40,7 @@ public class Queen extends Piece{
             }
         }
 
-        for(int offset = 1; -offset + xord/size >= 0 && offset < yord/size+ board.boardY; offset+=1){
+        for(int offset = 1; -offset + xord/size >= 0 && offset + yord/size<  board.boardY; offset+=1){
             if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece() != null){
                 if(board.getTiles().get(xord/size-offset).get(yord/size+offset).getPiece().getIsWhite() != isWhite){
                     moves.add(new Move(this, xord/size-offset, yord/size+offset, board));

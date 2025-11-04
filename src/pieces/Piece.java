@@ -41,10 +41,14 @@ public abstract class Piece {
 
     protected int xord;
     protected int yord;
+
+    protected int col, row;
     protected boolean isWhite;
     protected int size;
 
     Piece(int x, int y, boolean isWhite, String name, int size){
+        this.col = x;
+        this.row = y;
         this.xord = x*size;
         this.yord = y*size;
         this.isWhite = isWhite;
@@ -81,4 +85,23 @@ public abstract class Piece {
     public Boolean getIsWhite(){
         return isWhite;
     }
+
+    public void setCol(int col){
+        this.col = col;
+        this.xord = col*size;
+    }
+    public int getCol(){
+        return col;
+    }
+
+    public void setRow(int row){
+        this.row = row;
+        this.yord = row*size;
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+
 }

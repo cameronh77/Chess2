@@ -7,6 +7,43 @@ import java.awt.datatransfer.Clipboard;
 
 public class Move {
     private int oldX, oldY;
+    private int newX, newY;
+    private Board board;
+    private Piece movingPiece;
+    private Piece capturedPiece;
+    private Boolean isFirstMove;
+
+
+    public Move(Piece piece, int newX, int newY, Board board){
+        this.oldX = piece.getCol();
+        this.oldY = piece.getRow();
+        this.newX = newX;
+        this.newY = newY;
+        this.board = board;
+        this.movingPiece = piece;
+        this.isFirstMove = piece.getIsFirstMove();
+    }
+
+    public void execute(){
+        board.getTiles().get(oldX).get(oldY).setPiece(null);
+        if(board.getTiles().get(newX).get(newY).getPiece() != null){
+            capturedPiece = board.getTiles().get(newX).get(newY).getPiece();
+            board.getPieces().remove(capturedPiece);
+        }
+        board.getTiles().get(newX).get(newY).setPiece(movingPiece);
+        movingPiece.setCol(newX);
+        movingPiece.setRow(newY);
+
+        movingPiece.setIsFirstMove(false);
+    }
+
+    public void undo(){
+
+    }
+
+    public Piece getMovingPiece(){
+        return movingPiece;
+    }
 
     public int getNewX() {
         return newX;
@@ -16,17 +53,6 @@ public class Move {
         return newY;
     }
 
-    private int newX, newY;
-    private Board board;
-    private Piece capturedPiece;
-
-    public Move(Piece piece, int newX, int newY, Board board){
-        this.oldX = piece.getXord();
-        this.oldY = piece.getYord();
-        this.newX = newX;
-        this.newY = newY;
-        this.board = board;
-    }
 
 
 

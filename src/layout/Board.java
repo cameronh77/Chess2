@@ -121,4 +121,16 @@ public class Board extends JPanel {
     public Piece getSelectedPiece(){
         return selectedPiece;
     }
+
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
+
+    public ArrayList<Move> getValidMoves(){
+        return validMoves;
+    }
+
+    public void resetValidMoves(){
+        validMoves = null;
+    }
 }

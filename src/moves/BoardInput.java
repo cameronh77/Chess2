@@ -39,6 +39,24 @@ public class BoardInput extends MouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e){
-
+        if(board.getSelectedPiece() != null){
+            Move attemptedMove = new Move(board.getSelectedPiece(), e.getX()/ board.getTileSize(), e.getY()/ board.getTileSize(), board);
+            Boolean executed = false;
+            for(Move move: board.getValidMoves()){
+                if(move.getNewX() == attemptedMove.getNewX() && move.getNewY() == attemptedMove.getNewY() && move.getMovingPiece() == attemptedMove.getMovingPiece()){
+                    attemptedMove.execute();
+                    System.out.println(attemptedMove.getNewX()+"<- x y-> "+ attemptedMove.getNewY());
+                    executed = true;
+                    break;
+                }
+            }
+            if(!executed){
+                board.getSelectedPiece().setCol(board.getSelectedPiece().getCol());
+                board.getSelectedPiece().setRow(board.getSelectedPiece().getRow());
+            }
+            board.setSelectedPiece(null);
+            board.resetValidMoves();
+            board.repaint();
+        }
     }
 }
