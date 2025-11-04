@@ -19,6 +19,7 @@ public class Board extends JPanel {
 
     private Piece selectedPiece;
     private ArrayList<Move> validMoves;
+    private int[] enPassantTile = new int[2];
 
 
     public Board (){
@@ -132,5 +133,13 @@ public class Board extends JPanel {
 
     public void resetValidMoves(){
         validMoves = null;
+    }
+
+    public int[] getEnPassantTile(){
+        return enPassantTile;
+    }
+
+    public void setEnPassantTile(int[] enPassantTile){
+        this.enPassantTile = enPassantTile;
     }
 }

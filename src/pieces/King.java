@@ -62,7 +62,6 @@ public class King extends Piece{
             }
         }
 
-        //still needs castling
         return trueMoves;
     }
 

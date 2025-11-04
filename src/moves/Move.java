@@ -35,6 +35,13 @@ public class Move {
         movingPiece.setRow(newY);
 
         movingPiece.setIsFirstMove(false);
+
+        if(movingPiece.getName() == "pawn" && Math.abs(oldY-newY)==2){
+            int[] enPassantTile = {newX, (oldY+newY)/2};
+            board.setEnPassantTile(enPassantTile);
+        } else{
+            board.setEnPassantTile(null);
+        }
     }
 
     public void undo(){
