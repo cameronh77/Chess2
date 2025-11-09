@@ -31,16 +31,26 @@ public class Board extends JPanel {
 
         this.setSize(new Dimension((int) Math.floor(0.6*screenHeight), (int) Math.floor(0.6*screenHeight)));
         this.tileSize = (int) Math.floor(0.6*screenHeight) / 8;
-        for(int r=0; r < boardX; r ++){
-            ArrayList<Tile> row = new ArrayList();
-            for(int c =0; c < boardY; c++){
-                row.add(c, new Tile(c, r, tileSize));
+        for(int c=0; c < boardX; c ++){
+            ArrayList<Tile> col = new ArrayList();
+            for(int r =0; r < boardY; r++){
+                col.add(r, new Tile(c, r, tileSize));
             }
-            tiles.add(r, row);
+            tiles.add(c, col);
         }
         //addTestPieces();
         //addKiwipetePieces();
-        loadPositionFromFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ");
+
+        loadPositionFromFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - "); //Position 2 too much on perft 3
+        //loadPositionFromFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P1P1/2N2Q1p/PPPBBP1P/R3K2R b KQkq g3 0 1");
+
+        //loadPositionFromFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1 "); //Position 3 just short on perft 6
+
+        //loadPositionFromFEN("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
+        //loadPositionFromFEN("r3k2r/Pppp1ppp/1b3nbN/nPB5/B1P1P3/q4N2/Pp1P2PP/R2Q1RK1 b kq - 0 1");
+
+
+
         this.addMouseListener(input);
         this.addMouseMotionListener(input);
 
@@ -49,7 +59,7 @@ public class Board extends JPanel {
         long start = System.currentTimeMillis(); // start timer
 
         // Simulate work
-        System.out.println(moveGenerator.generateAllMoves(2));
+        System.out.println(moveGenerator.generateAllMoves(4, null));
 
         long end = System.currentTimeMillis();   // stop timer
         long elapsed = end - start;
@@ -58,13 +68,15 @@ public class Board extends JPanel {
 
     public void addToBoard(Piece piece){
         pieces.add(piece);
-        tiles.get(piece.getXord()/tileSize).get(piece.getYord()/tileSize).setPiece(piece);
+        tiles.get(piece.getCol()).get(piece.getRow()).setPiece(piece);
     }
+
 
     public Boolean checkEvaluator(Move move){
         move.execute();
         Boolean isKingChecked = false;
         for(Piece piece: pieces){
+            //System.out.println(piece);
             ArrayList<Move> moves = piece.generateMoves(this, true);
             for(Move subMove: moves){
                 if(subMove.getCapturedPiece() != null && subMove.getCapturedPiece().getName() == "king"){
@@ -72,8 +84,27 @@ public class Board extends JPanel {
                 }
             }
         }
+
         move.undo();
         return isKingChecked;
+    }
+
+    public Boolean tileCheckEvaluator(Tile tile){
+        Boolean isTileChecked = false;
+        whiteToMove = !whiteToMove;
+        for(Piece piece: pieces){
+            if(!(piece.getName()=="king")){
+                ArrayList<Move> moves = piece.generateMoves(this, true);
+                for(Move subMove: moves){
+                    if(subMove.getNewX() == tile.getXord() && subMove.getNewY() == tile.getYord()){
+                        isTileChecked = true;
+                    }
+                }
+            }
+
+        }
+        whiteToMove = !whiteToMove;
+        return isTileChecked;
     }
 
     public void addKiwipetePieces() {
@@ -287,7 +318,7 @@ public class Board extends JPanel {
 
         whiteToMove = parts[1].equals("w");
 
-        /**
+
         Piece bqr = tiles.get(0).get(0).getPiece();
         if (bqr instanceof Castle){
             bqr.setIsFirstMove(parts[2].contains("q"));
@@ -307,7 +338,7 @@ public class Board extends JPanel {
         if (wkr instanceof Castle){
             wkr.setIsFirstMove(parts[2].contains("K"));
         }
-        */
+
 
         if (parts[3].equals("-")) {
             enPassantTile = null;

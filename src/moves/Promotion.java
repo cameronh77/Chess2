@@ -1,16 +1,16 @@
 package moves;
 
 import layout.Board;
-import pieces.Castle;
-import pieces.Piece;
-import pieces.Queen;
+import pieces.*;
 
 public class Promotion extends Move{
 
-    private Piece newQueen;
+    private Piece promotionPiece;
+    private Pieces type;
 
-    public Promotion(Piece piece, int newX, int newY, Board board){
+    public Promotion(Piece piece, int newX, int newY, Board board, Pieces type){
         super(piece, newX, newY, board);
+        this.type = type;
 
     }
 
@@ -19,13 +19,22 @@ public class Promotion extends Move{
         board.getTiles().get(oldX).get(oldY).setPiece(null);
 
         board.getPieces().remove(capturedPiece);
-        newQueen = new Queen(newX, newY, movingPiece.isWhite(), board.getTileSize());
+        if(type == Pieces.QUEEN){
+            promotionPiece = new Queen(newX, newY, movingPiece.isWhite(), board.getTileSize());
+        } else if (type == Pieces.BISHOP){
+            promotionPiece = new Bishop(newX, newY, movingPiece.isWhite(), board.getTileSize());
+        }else if (type == Pieces.HORSE){
+            promotionPiece = new Horse(newX, newY, movingPiece.isWhite(), board.getTileSize());
+        }else if (type == Pieces.CASTLE){
+            promotionPiece = new Castle(newX, newY, movingPiece.isWhite(), board.getTileSize());
+        }
+
         board.getPieces().remove(movingPiece);
-        board.getPieces().add(newQueen);
+        board.getPieces().add(promotionPiece);
 
-        board.getTiles().get(newX).get(newY).setPiece(newQueen);
+        board.getTiles().get(newX).get(newY).setPiece(promotionPiece);
 
-        newQueen.setIsFirstMove(false);
+        promotionPiece.setIsFirstMove(false);
 
         board.setWhiteToMove(!board.getWhiteToMove());
     }
@@ -36,10 +45,13 @@ public class Promotion extends Move{
         board.getTiles().get(oldX).get(oldY).setPiece(movingPiece);
 
         //Re add the captured piece
-        board.getPieces().add(capturedPiece);
+        if(capturedPiece != null){
+            board.getPieces().add(capturedPiece);
+        }
+
 
         board.getPieces().add(movingPiece);
-        board.getPieces().remove(newQueen);
+        board.getPieces().remove(promotionPiece);
 
         board.getTiles().get(newX).get(newY).setPiece(capturedPiece);
 

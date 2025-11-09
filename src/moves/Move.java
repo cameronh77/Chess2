@@ -101,6 +101,14 @@ public class Move {
         return newY;
     }
 
+    public int getOldX(){
+        return oldX;
+    }
+
+    public int getOldY(){
+        return oldY;
+    }
+
     public Piece getCapturedPiece(){
         return capturedPiece;
     }

@@ -28,25 +28,37 @@ public class Pawn extends Piece{
             //Generate single moves
             if (board.getTiles().get(xord / size).get(yord / size + (offset)).getPiece() == null) {
                 if (yord / size + (offset) == (isWhite ? 0 : board.boardX - 1)) {
-                    moves.add(new Promotion(this, xord / size, yord / size + (offset), board));
+                    moves.add(new Promotion(this, xord / size, yord / size + (offset), board, Pieces.QUEEN));
+                    moves.add(new Promotion(this, xord / size, yord / size + (offset), board, Pieces.BISHOP));
+                    moves.add(new Promotion(this, xord / size, yord / size + (offset), board, Pieces.CASTLE));
+                    moves.add(new Promotion(this, xord / size, yord / size + (offset), board, Pieces.HORSE));
+                }else {
+                    moves.add(new Move(this, xord / size, yord / size + (offset), board));
                 }
-                moves.add(new Move(this, xord / size, yord / size + (offset), board));
             }
 
             //Generate left takes (This could probably be more efficient)
             if (xord / size - 1 >= 0 && board.getTiles().get(xord / size - 1).get(yord / size + (offset)).getPiece() != null && board.getTiles().get(xord / size - 1).get(yord / size + (offset)).getPiece().getIsWhite() != isWhite) {
                 if (yord / size + (offset) == (isWhite ? 0 : board.boardX - 1)) {
-                    moves.add(new Promotion(this, xord / size - 1, yord / size + (offset), board));
+                    moves.add(new Promotion(this, xord / size-1, yord / size + (offset), board, Pieces.QUEEN));
+                    moves.add(new Promotion(this, xord / size-1, yord / size + (offset), board, Pieces.BISHOP));
+                    moves.add(new Promotion(this, xord / size-1, yord / size + (offset), board, Pieces.CASTLE));
+                    moves.add(new Promotion(this, xord / size-1, yord / size + (offset), board, Pieces.HORSE));
+                } else {
+                    moves.add(new Move(this, xord / size - 1, yord / size + (offset), board));
                 }
-                moves.add(new Move(this, xord / size - 1, yord / size + (offset), board));
             }
 
             //Generate right takes
             if (xord / size + 1 < board.boardX && board.getTiles().get(xord / size + 1).get(yord / size + (offset)).getPiece() != null && board.getTiles().get(xord / size + 1).get(yord / size + (offset)).getPiece().getIsWhite() != isWhite) {
                 if (yord / size + (offset) == (isWhite ? 0 : board.boardX - 1)) {
-                    moves.add(new Promotion(this, xord / size + 1, yord / size + (offset), board));
+                    moves.add(new Promotion(this, xord / size+1, yord / size + (offset), board, Pieces.QUEEN));
+                    moves.add(new Promotion(this, xord / size+1, yord / size + (offset), board, Pieces.BISHOP));
+                    moves.add(new Promotion(this, xord / size+1, yord / size + (offset), board, Pieces.CASTLE));
+                    moves.add(new Promotion(this, xord / size+1, yord / size + (offset), board, Pieces.HORSE));
+                } else {
+                    moves.add(new Move(this, xord / size + 1, yord / size + (offset), board));
                 }
-                moves.add(new Move(this, xord / size + 1, yord / size + (offset), board));
             }
 
             if (board.getEnPassantTile() != null) {
