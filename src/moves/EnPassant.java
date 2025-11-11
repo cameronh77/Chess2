@@ -37,8 +37,11 @@ public class EnPassant extends Move{
         board.getTiles().get(oldX).get(oldY).setPiece(movingPiece);
 
         //Re add the captured pawn
-        board.getTiles().get(newX).get(newY+(movingPiece.getIsWhite()?1:-1)).setPiece(capturedPiece);
-        board.getPieces().add(capturedPiece);
+        if(capturedPiece != null){
+            board.getTiles().get(newX).get(newY+(movingPiece.getIsWhite()?1:-1)).setPiece(capturedPiece);
+            board.getPieces().add(capturedPiece);
+        }
+
 
         //Clear the new tile
         board.getTiles().get(newX).get(newY).setPiece(null);

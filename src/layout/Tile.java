@@ -18,6 +18,8 @@ public class Tile {
     public void draw(Graphics2D g2d){
         g2d.setColor((xord+yord)%2==0?Color.BLUE:Color.GREEN);
         g2d.fillRect(xord*size, yord*size, size, size);
+        //System.out.println("Drawing tile x: "+xord + " y: "+ yord);
+        //System.out.println(piece == null?"It contains no piece":"At this instance it contains piece: " + piece.getName());
     }
 
     public int getXord() {

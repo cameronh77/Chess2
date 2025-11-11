@@ -57,7 +57,6 @@ public abstract class Piece {
         try {
             // Load the image from your resources folder (e.g., src/main/resources)
             String path = "resources/pieces/"+(isWhite?"white":"black")+"-"+name+".png";
-            System.out.println(path);
             image = ImageIO.read(new File(path));
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();

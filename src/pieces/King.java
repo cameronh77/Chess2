@@ -21,7 +21,6 @@ public class King extends Piece{
             if (xord / size - 1 >= 0) {
                 moves.add(new Move(this, xord / size - 1, yord / size, board));
                 if (yord / size - 1 >= 0) {
-                    moves.add(new Move(this, xord / size, yord / size - 1, board));
                     moves.add(new Move(this, xord / size - 1, yord / size - 1, board));
                 }
                 if (yord / size + 1 < board.boardY) {
@@ -29,10 +28,13 @@ public class King extends Piece{
                 }
             }
 
+            if (yord / size - 1 >= 0) {
+                moves.add(new Move(this, xord / size, yord / size - 1, board));
+            }
+
             if (xord / size + 1 < board.boardX) {
                 moves.add(new Move(this, xord / size + 1, yord / size, board));
                 if (yord / size + 1 < board.boardX) {
-                    moves.add(new Move(this, xord / size, yord / size + 1, board));
                     moves.add(new Move(this, xord / size + 1, yord / size + 1, board));
                 }
                 if (yord - 1 >= 0) {
@@ -40,18 +42,22 @@ public class King extends Piece{
                 }
             }
 
+            if (yord / size + 1 < board.boardX) {
+                moves.add(new Move(this, xord / size, yord / size + 1, board));
+            }
+
 
             //Castling is being restricted to 8x8 boards
             if (isFirstMove && board.boardX == 8 && board.boardY == 8) {
                 Piece rightCastle = board.getTiles().get(7).get(isWhite ? 7 : 0).getPiece();
                 //I refuse to believe that there isn't a more efficient way to do this
-                if (rightCastle != null && rightCastle.getIsFirstMove() && board.getTiles().get(6).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(5).get(isWhite ? 7 : 0).getPiece() == null && rightCastle.getName() == "castle") {
+                if (rightCastle != null && rightCastle.getIsFirstMove() && board.getTiles().get(6).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(5).get(isWhite ? 7 : 0).getPiece() == null && rightCastle.getName() == "castle" && !board.tileCheckEvaluator(board.getTiles().get(6).get(isWhite ? 7 : 0)) && !board.tileCheckEvaluator(board.getTiles().get(5).get(isWhite ? 7 : 0))) {
                     moves.add(new Castling(this, 6, isWhite ? 7 : 0, board, rightCastle));
                 }
 
                 Piece leftCastle = board.getTiles().get(0).get(isWhite ? 7 : 0).getPiece();
                 //I refuse to believe that there isn't a more efficient way to do this
-                if (leftCastle != null && leftCastle.getIsFirstMove() && board.getTiles().get(1).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(2).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(3).get(isWhite ? 7 : 0).getPiece() == null && leftCastle.getName() == "castle") {
+                if (leftCastle != null && leftCastle.getIsFirstMove() && board.getTiles().get(1).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(2).get(isWhite ? 7 : 0).getPiece() == null && board.getTiles().get(3).get(isWhite ? 7 : 0).getPiece() == null && leftCastle.getName() == "castle"  && !board.tileCheckEvaluator(board.getTiles().get(2).get(isWhite ? 7 : 0)) && !board.tileCheckEvaluator(board.getTiles().get(3).get(isWhite ? 7 : 0))) {
                     moves.add(new Castling(this, 2, isWhite ? 7 : 0, board, leftCastle));
                 }
             }
